@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Responsive navbar with search, login and sticky functionality</title>
+   <link rel="stylesheet" type="text/css" href="flower.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+   <style>
+     
+   </style>
+</head>
+<body>
+   <!--==================== HEADER ====================-->
+   <header class="header" id="header">
+      <nav class="nav container">
+         <a href="#" class="nav__logo"><h1 style="color:red;">igp</h1></a>
+
+         <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+               <li class="nav__item">
+                  <a href="#" class="nav__link active">Home</a>
+               </li>
+
+               <li class="nav__item">
+                  <a href="#" class="nav__link">About Us</a>
+               </li>
+
+               <li class="nav__item">
+                  <a href="#" class="nav__link">Services</a>
+               </li>
+
+               <li class="nav__item">
+                  <a href="#" class="nav__link">Review</a>
+               </li>
+
+               <li class="nav__item">
+                  <a href="#" class="nav__link">Contact Me</a>
+               </li>
+            </ul>
+
+            <!-- Close button -->
+            <div class="nav__close" id="nav-close">
+               <i class="ri-close-line"></i>
+            </div>
+         </div>
+
+         <div class="nav__actions">
+            <!-- Search button -->
+            <i class="ri-search-line nav__search" id="search-btn"></i>
+
+            <!-- Login button -->
+            <i class="ri-user-line nav__login" id="login-btn"></i>
+
+            <!-- Toggle button -->
+            <div class="nav__toggle" id="nav-toggle">
+               <i class="ri-menu-line"></i>
+            </div>
+         </div>
+      </nav>
+   </header>
+
+   <!--==================== SEARCH ====================-->
+   <div class="search" id="search">
+      <form action="" class="search__form">
+         <i class="ri-search-line search__icon"></i>
+         <input type="search" placeholder="What are you looking for?" class="search__input">
+      </form>
+
+      <i class="ri-close-line search__close" id="search-close"></i>
+   </div>
+
+   <!--==================== LOGIN ====================-->
+   <div class="login" id="login">
+      <form action="" class="login__form">
+         <h2 class="login__title">Log In</h2>
+         
+         <div class="login__group">
+            <div>
+               <label for="email" class="login__label">Email</label>
+               <input type="email" placeholder="Write your email" id="email" class="login__input">
+            </div>
+            
+            <div>
+               <label for="password" class="login__label">Password</label>
+               <input type="password" placeholder="Enter your password" id="password" class="login__input">
+            </div>
+         </div>
+
+         <div>
+            <p class="login__signup">
+               You do not have an account? <a href="#">Sign up</a>
+            </p>
+
+            <a href="#" class="login__forgot">
+               You forgot your password
+            </a>
+
+            <button type="submit" class="login__button">Log In</button>
+         </div>
+      </form>
+
+      <i class="ri-close-line login__close" id="login-close"></i>
+   </div>
+
+   <!--==================== MAIN ====================-->
+   <main class="main">
+      
+      </section>
+   </main>
+   
+   <script>
+      /*=============== SHOW MENU ===============*/
+      const navMenu = document.getElementById('nav-menu'),
+            navToggle = document.getElementById('nav-toggle'),
+            navClose = document.getElementById('nav-close');
+
+      // Show menu
+      if (navToggle) {
+         navToggle.addEventListener('click', () => {
+            navMenu.classList.add('show-menu');
+         });
+      }
+
+      // Hide menu
+      if (navClose) {
+         navClose.addEventListener('click', () => {
+            navMenu.classList.remove('show-menu');
+         });
+      }
+
+      // Remove menu on link click
+      const navLinks = document.querySelectorAll('.nav__link');
+      navLinks.forEach(link => {
+         link.addEventListener('click', () => {
+            navMenu.classList.remove('show-menu');
+         });
+      });
+
+      /*=============== SHOW SEARCH ===============*/
+      const search = document.getElementById('search'),
+            searchBtn = document.getElementById('search-btn'),
+            searchClose = document.getElementById('search-close');
+
+      // Show search
+      if (searchBtn) {
+         searchBtn.addEventListener('click', () => {
+            search.classList.add('show-search');
+         });
+      }
+
+      // Hide search
+      if (searchClose) {
+         searchClose.addEventListener('click', () => {
+            search.classList.remove('show-search');
+         });
+      }
+
+      /*=============== SHOW LOGIN ===============*/
+      const login = document.getElementById('login'),
+            loginBtn = document.getElementById('login-btn'),
+            loginClose = document.getElementById('login-close');
+
+      // Show login
+      if (loginBtn) {
+         loginBtn.addEventListener('click', () => {
+            login.classList.add('show-login');
+         });
+      }
+
+      // Hide login
+      if (loginClose) {
+         loginClose.addEventListener('click', () => {
+            login.classList.remove('show-login');
+         });
+      }
+
+      /*=============== STICKY NAVBAR ===============*/
+      function stickyNavbar() {
+         const header = document.getElementById('header');
+         // When the scroll is greater than 50 viewport height, add the sticky class
+         if (window.scrollY > 50) {
+            header.classList.add('sticky');
+         } else {
+            header.classList.remove('sticky');
+         }
+      }
+      window.addEventListener('scroll', stickyNavbar);
+
+      /*=============== ACTIVE NAV LINK ===============*/
+      function setActiveLink() {
+         const sections = document.querySelectorAll('section[id]');
+         const scrollY = window.pageYOffset;
+
+         sections.forEach(current => {
+            const sectionHeight = current.offsetHeight,
+                  sectionTop = current.offsetTop - 100,
+                  sectionId = current.getAttribute('id');
+
+            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+               document.querySelector('.nav__link[href*=' + sectionId + ']')?.classList.add('active');
+            } else {
+               document.querySelector('.nav__link[href*=' + sectionId + ']')?.classList.remove('active');
+            }
+         });
+      }
+      window.addEventListener('scroll', setActiveLink);
+   </script>
+    <!-- Hero Section -->
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 50px; background-color: #fce4ec; font-family: Arial, sans-serif;">
+  <!-- Left Content -->
+  <div style="max-width: 50%;">
+    <h1 style="font-size: 48px; font-weight: bold; color: #212121;">Fresh Flowers</h1>
+    <h2 style="font-size: 24px; color: #ad1457; margin-top: 10px;">Natural & Beautiful Flowers</h2>
+    <p style="color: ; margin: 20px 0 30px;">
+      Lorem, Ipsum Dolor Sit Amet Consectetur Adipisicing Elit. Unde, Obcaecati Cumque Vel Natus. Placeat Sapiente Assumenda Excepturi Quiaerat Modi Ipsum.
+    </p>
+    <button style="background-color: #212121; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer;">
+      Shop Now
+    </button>
+  </div>
+
+  <!-- Right Image -->
+  <div>
+    <img src="flo2.jpg" alt="Fresh Flowers" style="max-width: 500px; border-radius: 10px;" />
+
+  </div>
+</div>
+<!-- About Us Section -->
+<!-- About Us Section -->
+<div style="padding: 50px; background-color: #fff; font-family: Arial, sans-serif;">
+  <h2 style="text-align: center; font-size: 36px; font-weight: bold; color: #d81b60; margin-bottom: 40px;">
+    About <span style="color: #000;">Us</span>
+  </h2>
+
+  <div style="display: flex; align-items: center; gap: 40px; justify-content: center; flex-wrap: wrap;">
+    <!-- Video Block -->
+    <div style="flex: 1; min-width: 300px;">
+      <iframe width="100%" height="250" src="https://www.youtube.com/embed/iVquDZ1dJSU?autoplay=1&mute=1&loop=1&playlist=iVquDZ1dJSU"
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="border-radius: 10px;" >
+      </iframe>
+      <h3 style="text-align: center; margin-top: 10px; font-size: 22px;">
+        <strong style="color: #444;">Best Flower <span style="color: #8d6e63;">Sellers</span></strong>
+      </h3>
+    </div>
+
+    <!-- Text Block -->
+    <div style="flex: 1; min-width: 300px;">
+      <h3 style="font-size: 24px; font-weight: bold; color: #000;">Why Choose Us</h3>
+      <p style="color: #555; margin: 15px 0;">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate ea placeat deserunt amet blanditiis dicta.
+      </p>
+      <p style="color: #555; margin-bottom: 20px;">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, necessitatibus debitis, repellat eveniet.
+      </p>
+      <button style="background-color: #ec407a; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer;">
+        Learn More
+      </button>
+    </div>
+  </div>
+</div>
+ <!-- Font Awesome CDN (Add this once in your HTML <head>) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+<!-- Features Section -->
+<div style="background-color: #f5f5f5; padding: 40px 20px;">
+  <div style="display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; max-width: 1000px; margin: 0 auto;">
+
+    <!-- Feature Box 1 -->
+    <div style="flex: 1; min-width: 200px; background: white; padding: 20px; text-align: center; border-radius: 8px;">
+      <i class="fas fa-shipping-fast" style="font-size: 32px; color: #333;"></i>
+      <h4 style="margin: 10px 0 5px; font-size: 16px;">Free Shipping</h4>
+      <p style="font-size: 14px; color: #555;">On All Orders</p>
+    </div>
+
+    <!-- Feature Box 2 -->
+    <div style="flex: 1; min-width: 200px; background: white; padding: 20px; text-align: center; border-radius: 8px;">
+      <i class="fas fa-undo-alt" style="font-size: 32px; color: #333;"></i>
+      <h4 style="margin: 10px 0 5px; font-size: 16px;">10 Days Returns</h4>
+      <p style="font-size: 14px; color: #555;">Moneyback Guarantee</p>
+    </div>
+
+    <!-- Feature Box 3 -->
+    <div style="flex: 1; min-width: 200px; background: white; padding: 20px; text-align: center; border-radius: 8px;">
+      <i class="fas fa-gift" style="font-size: 32px; color: #333;"></i>
+      <h4 style="margin: 10px 0 5px; font-size: 16px;">Offer & Gift</h4>
+      <p style="font-size: 14px; color: #555;">On All Orders</p>
+    </div>
+
+    <!-- Feature Box 4 -->
+    <div style="flex: 1; min-width: 200px; background: white; padding: 20px; text-align: center; border-radius: 8px;">
+      <i class="fas fa-credit-card" style="font-size: 32px; color: #333;"></i>
+      <h4 style="margin: 10px 0 5px; font-size: 16px;">Secure Payment</h4>
+      <p style="font-size: 14px; color: #555;">Protected by PayPal</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Latest Products Section -->
+<div style="padding: 50px 20px; font-family: Arial, sans-serif;">
+  <h2 style="text-align: center; font-size: 30px; font-weight: bold; margin-bottom: 40px;">
+    Latest <span style="color: #e91e63;">Products</span>
+  </h2>
+
+  <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+
+    <!-- Product Card 1 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="flo6.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$195.80 <span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+
+    <!-- Product Card 2 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-15%</span>
+      <img src="flo7.webp" alt="Flower Pot" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$415.49 <span style="text-decoration: line-through; color: #aaa;">$40.99</span></p>
+    </div>
+
+    <!-- Product Card 3 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-5%</span>
+      <img src="flo8.webp" alt="Flower Pot" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$555.19 <span style="text-decoration: line-through; color: #aaa;">$23.12</span></p>
+    </div>
+     <!-- Product Card 4 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="flo4.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$85.56 <span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+
+     <!-- Product Card 5 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="flo6.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$165.30 <span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+
+     <!-- Product Card 6 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="1729597437462-WhiteRosesinGlassVase.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$185.90 <span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+
+     <!-- Product Card 7 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="13403_31_13403.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$250.99 <span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+     <!-- Product Card 8 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="flo1.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$315.79 <span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+     <!-- Product Card 9 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="flo12.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$315.79 <span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+     <!-- Product Card 10 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="flo11.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$315.79 <span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+     <!-- Product Card 11 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="flo12.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$155.67<span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+     <!-- Product Card 12 -->
+    <div style="width: 200px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; position: relative; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <span style="position: absolute; top: 10px; left: 10px; color: #e91e63; font-size: 14px;">-10%</span>
+      <img src="ima10.webp" style="width: 100%; height: auto; margin-bottom: 15px;">
+      <h4 style="margin: 5px 0;">Flower Pot</h4>
+      <p style="color: #e91e63; font-weight: bold;">$85.19 <span style="text-decoration: line-through; color: #aaa;">$18.99</span></p>
+    </div>
+
+  </div>
+</div>
+<!-- Customer Review Section -->
+<div style="padding: 50px 20px; font-family: Arial, sans-serif;">
+  <h2 style="text-align: center; font-size: 30px; font-weight: bold; margin-bottom: 40px;">
+    Customer's <span style="color: #e91e63;">Review</span>
+  </h2>
+
+  <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+
+    <!-- Review Card 1 -->
+    <div style="flex: 1; min-width: 250px; max-width: 300px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
+      <div style="color: #f39c12; margin-bottom: 10px;">★★★★★</div>
+      <p style="font-size: 14px; color: #555;">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores sint corporis voluptates non error obcaecati adipisci.
+      </p>
+      <div style="display: flex; align-items: center; margin-top: 20px;">
+        <img src="lady3.avif" alt="John Deo" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+        <div>
+          <strong>Priya Roy</strong><br>
+          <small style="color: gray;">Happy Customer</small>
+        </div>
+        <span style="margin-left: auto; font-size: 24px; color: #ddd;">❞</span>
+      </div>
+    </div>
+
+    <!-- Review Card 2 -->
+    <div style="flex: 1; min-width: 250px; max-width: 300px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
+      <div style="color: #f39c12; margin-bottom: 10px;">★★★★★</div>
+      <p style="font-size: 14px; color: #555;">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores sint corporis voluptates non error obcaecati adipisci.
+      </p>
+      <div style="display: flex; align-items: center; margin-top: 20px;">
+        <img src="lady2.avif" alt="John Deo" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+        <div>
+          <strong>Sita Mhata</strong><br>
+          <small style="color: gray;">Happy Customer</small>
+        </div>
+        <span style="margin-left: auto; font-size: 24px; color: #ddd;">❞</span>
+      </div>
+    </div>
+
+    <!-- Review Card 3 -->
+    <div style="flex: 1; min-width: 250px; max-width: 300px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
+      <div style="color: #f39c12; margin-bottom: 10px;">★★★★★</div>
+      <p style="font-size: 14px; color: #555;">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores sint corporis voluptates non error obcaecati adipisci.
+      </p>
+      <div style="display: flex; align-items: center; margin-top: 20px;">
+        <img src="lady1.avif" alt="John Deo" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+        <div>
+          <strong>Brinda Roy</strong><br>
+          <small style="color: gray;">Happy Customer</small>
+        </div>
+        <span style="margin-left: auto; font-size: 24px; color: #ddd;">❞</span>
+      </div>
+    </div>
+    <!-- ReviEW CARD 4 -->
+    <div style="flex: 1; min-width: 250px; max-width: 300px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
+      <div style="color: #f39c12; margin-bottom: 10px;">★★★★★</div>
+      <p style="font-size: 14px; color: #555;">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores sint corporis voluptates non error obcaecati adipisci.
+      </p>
+      <div style="display: flex; align-items: center; margin-top: 20px;">
+        <img src="lady3.avif" alt="John Deo" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+        <div>
+          <strong>Radha Gupta</strong><br>
+          <small style="color: gray;">Happy Customer</small>
+        </div>
+        <span style="margin-left: auto; font-size: 24px; color: #ddd;">❞</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Contact Us Section -->
+<div style="font-family: Arial, sans-serif; padding: 40px;">
+  <h2 style="text-align: center; font-size: 30px; font-weight: bold; margin-bottom: 40px;">
+    <span style="color: #e91e63;">Contact</span> Us
+  </h2>
+
+  <div style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap;">
+
+    <!-- Contact Form -->
+    <form id="contactForm" style="display: flex; flex-direction: column; width: 300px; gap: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px; border-radius: 8px; background: #fff;">
+      <input type="text" id="name" placeholder="Name" style="padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-weight: bold;">
+      <input type="email" id="email" placeholder="Email" style="padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-weight: bold">
+      <input type="tel" id="number" placeholder="Number" style="padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-weight: bold">
+      <textarea id="message" rows="4" placeholder="Message" style="padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-weight: bold"></textarea>
+      <button type="submit" style="padding: 10px; background: #111; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Send Message</button>
+    </form>
+
+    <!-- Illustration (Replace with your image) -->
+    <div>
+      <img src="contect.jpg" style="max-width: 400px;">
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript Form Validation -->
+<script>
+  document.getElementById("contactForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent actual form submission
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const number = document.getElementById("number").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    if (!name || !email || !number || !message) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      alert("Please enter a valid email.");
+      return;
+    }
+
+    if (!/^\d{10,15}$/.test(number)) {
+      alert("Please enter a valid phone number (10–15 digits).");
+      return;
+    }
+
+    // Simulate form submission
+    alert("Message sent successfully!");
+    document.getElementById("contactForm").reset();
+  });
+</script>
+
+
+<!-- Footer Section -->
+<div  class="footer-container">
+  <div class="footer-columns">
+    <div class="footer-col">
+      <h3>Quick Links</h3>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Products</a>
+      <a href="#">Review</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <div class="footer-col">
+      <h3>Extra Links</h3>
+      <a href="#">My Account</a>
+      <a href="#">My Order</a>
+      <a href="#">My Favorite</a>
+    </div>
+
+    <div class="footer-col">
+      <h3>Locations</h3>
+      <a href="#">India</a>
+      <a href="#">USA</a>
+      <a href="#">Japan</a>
+      <a href="#">France</a>
+    </div>
+
+    <div class="footer-col">
+      <h3>Contact Info</h3>
+      <p>+123-456-7890</p>
+      <p>Example@Gmail.Com</p>
+      <p>Mumbai, India - 400104</p>
+      <div class="payment-icons">
+        <img src="card1.avif" alt="credit-card">
+        <img src="card3.webp" alt="MasterCard">
+        <img src="card2.webp" alt="Visa">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-credit">
+    Created By <span class="highlight">Purnima Mondal</span> | All Rights Reserved
+  </div>
+</div>
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
